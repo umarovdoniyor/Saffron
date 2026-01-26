@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "thumb": "1.jpg",
+    "delay": "100",
+    "category": "Burger",
+    "title": "Relaxed seating where families can enjoy meals without rush.",
+    "date": "18 March, 2025",
+    "author": "Saffron Table"
+  },
+  {
+    "id": 2,
+    "thumb": "2.jpg",
+    "delay": "200",
+    "category": "Food",
+    "title": "Options for adults, kids, and groups of all sizes.",
+    "date": "25 April, 2025",
+    "author": "Saffron Table"
+  },
+  {
+    "id": 3,
+    "thumb": "3.jpg",
+    "delay": "400",
+    "category": "Pizza",
+    "title": "Prepared daily using quality ingredients.",
+    "date": "15 June, 2025",
+    "author": "Saffron Table"
+  }
+]
