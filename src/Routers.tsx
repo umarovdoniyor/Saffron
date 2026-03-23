@@ -73,6 +73,10 @@ const Routers = () => {
         <Route path="/shop" element={<ShopPage />}></Route>
         <Route path="/shop-single/:id" element={<ShopSinglePage />}></Route>
         <Route
+          path="/shop-single-thumb/:id"
+          element={<ShopSinglePage />}
+        ></Route>
+        <Route
           path="/cart"
           element={
             <ProtectedRoute>

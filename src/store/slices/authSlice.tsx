@@ -62,16 +62,17 @@ export const logoutUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       await memberApi.logout();
-
-      // Clear localStorage
+    } catch (error: any) {
+      // Even if API fails, we still want to clear local state
+      console.error("Logout API failed:", error);
+    } finally {
+      // Always clear localStorage regardless of API success/failure
       localStorage.removeItem("user");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("isAuthenticated");
-
-      return null;
-    } catch (error: any) {
-      return rejectWithValue(error.message || "Logout failed");
     }
+
+    return null;
   },
 );
 
@@ -164,7 +165,11 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string;
+        // Always clear auth state even if logout API failed
+        state.user = null;
+        state.accessToken = null;
+        state.isAuthenticated = false;
+        state.error = null;
       });
 
     // Fetch user detail
