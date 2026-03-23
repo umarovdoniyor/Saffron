@@ -5,11 +5,7 @@
 
 import { apiService } from "./api.service";
 import { API_ENDPOINTS } from "./api.config";
-import type {
-  Order,
-  OrderItem,
-  OrderInquiry,
-} from "../types/api.types";
+import type { Order, OrderItem, OrderInquiry } from "../types/api.types";
 
 class OrderApiService {
   /**

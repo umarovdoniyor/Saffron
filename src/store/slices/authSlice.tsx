@@ -55,23 +55,20 @@ export const signupUser = createAsyncThunk(
   },
 );
 
-export const logoutUser = createAsyncThunk(
-  "auth/logout",
-  async () => {
-    try {
-      await memberApi.logout();
-    } catch (error: any) {
-      // Even if API fails, we still want to clear local state
-      console.error("Logout API failed:", error);
-    } finally {
-      // Always clear localStorage regardless of API success/failure
-      localStorage.removeItem("user");
-      localStorage.removeItem("isAuthenticated");
-    }
+export const logoutUser = createAsyncThunk("auth/logout", async () => {
+  try {
+    await memberApi.logout();
+  } catch (error: any) {
+    // Even if API fails, we still want to clear local state
+    console.error("Logout API failed:", error);
+  } finally {
+    // Always clear localStorage regardless of API success/failure
+    localStorage.removeItem("user");
+    localStorage.removeItem("isAuthenticated");
+  }
 
-    return null;
-  },
-);
+  return null;
+});
 
 export const fetchUserDetail = createAsyncThunk(
   "auth/fetchUserDetail",
