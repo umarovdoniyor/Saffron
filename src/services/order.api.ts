@@ -8,7 +8,6 @@ import { API_ENDPOINTS } from "./api.config";
 import type {
   Order,
   OrderItem,
-  CreateOrderInput,
   OrderInquiry,
 } from "../types/api.types";
 
@@ -17,7 +16,6 @@ class OrderApiService {
    * Create a new order
    */
   async createOrder(items: OrderItem[]): Promise<Order> {
-    const input: CreateOrderInput = { items };
     return apiService.post<Order>(API_ENDPOINTS.order.create, items);
   }
 

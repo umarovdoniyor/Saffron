@@ -26,7 +26,6 @@ const ShopPageContent = () => {
 
   // Fetch products when page or sortBy changes
   useEffect(() => {
-    console.log(`🔄 Fetching products for page: ${currentPageNumber}`);
     dispatch(
       fetchProducts({
         page: currentPageNumber,
@@ -50,7 +49,6 @@ const ShopPageContent = () => {
 
   const handlePageClick = (data: any) => {
     const selectedPage = data.selected + 1;
-    console.log(`👆 User clicked page: ${selectedPage}`);
     setCurrentPage(selectedPage);
 
     // Update the URL dynamically
@@ -60,10 +58,6 @@ const ShopPageContent = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }, 200);
   };
-
-  console.log(
-    `📊 Current state - Page: ${currentPage}, Products: ${products.length}, Total: ${totalCount}, Pages: ${totalPages}`,
-  );
 
   return (
     <>
@@ -211,7 +205,7 @@ const ShopPageContent = () => {
               {/* Pagination */}
               <nav className="woocommerce-pagination mt-60">
                 <Pagination
-                  forcedPage={currentPage - 1}
+                  forcePage={currentPage - 1}
                   previousLabel={
                     currentPage === 1 ? (
                       <i className="fas fa-ban"></i>

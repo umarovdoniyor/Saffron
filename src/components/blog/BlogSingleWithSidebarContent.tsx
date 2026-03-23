@@ -19,7 +19,7 @@ interface DataType {
 }
 
 const BlogSingleWithSidebarContent = ({ blogInfo }: { blogInfo: DataType }) => {
-  const { date, dateIcon, thumbFull } = blogInfo;
+  const { date, dateIcon } = blogInfo;
 
   return (
     <>

@@ -1,12 +1,8 @@
-import menu7 from "/assets/img/menu/popularItem1.jpg";
-import menu8 from "/assets/img/menu/popularItem2.jpg";
 import dessertItem from "/assets/img/menu/dessertItem.jpg";
 import popularItem1 from "/assets/img/menu/popularItem1.jpg";
-import popularItem2 from "/assets/img/menu/popularItem2.jpg";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { productApi } from "../../services";
-import { API_CONFIG } from "../../services/api.config";
 import type { FrontendProduct } from "../../types/api.types";
 
 interface Datatype {
@@ -31,24 +27,6 @@ interface MenuSection {
   items: MenuItem[];
 }
 
-// Collection display names mapping
-const collectionNames: Record<string, string> = {
-  DISH: "Main Dishes",
-  DRINK: "Beverages",
-  DESSERT: "Dessert Items",
-  SALAD: "Fresh Salads",
-  SANDWICH: "Sandwiches",
-};
-
-// Default collection images
-const collectionImages: Record<string, string> = {
-  DISH: menu7,
-  DRINK: menu8,
-  DESSERT: menu8,
-  SALAD: menu7,
-  SANDWICH: menu7,
-};
-
 const MenuV2 = ({ sectionClass, isDark }: Datatype) => {
   const [menuSections, setMenuSections] = useState<MenuSection[]>([]);
   const [loading, setLoading] = useState(true);
@@ -63,9 +41,6 @@ const MenuV2 = ({ sectionClass, isDark }: Datatype) => {
           page: 1,
           limit: 100,
         });
-
-        console.log("🔍 Fetched products:", allProducts);
-        console.log("🔍 First product:", allProducts[0]);
 
         // Check if we got valid products array
         if (!allProducts || !Array.isArray(allProducts)) {
@@ -85,17 +60,6 @@ const MenuV2 = ({ sectionClass, isDark }: Datatype) => {
           product: FrontendProduct,
         ): MenuItem | null => {
           try {
-            console.log("🔍 Transforming product:", {
-              name: product.name,
-              title: product.title,
-              price: product.price,
-              description: product.description,
-              text: product.text,
-              stockCount: product.stockCount,
-              category: product.category,
-              thumb: product.thumb,
-            });
-
             // product.thumb is already a full URL from transformProduct
             // Only use fallback image if thumb is empty
             const imageUrl = product.thumb || product.image || dessertItem;
@@ -113,15 +77,14 @@ const MenuV2 = ({ sectionClass, isDark }: Datatype) => {
                 product.description ||
                 product.text ||
                 "Delicious item from our menu",
-              extraInfo: product.stockCount > 0 ? "Available" : "Out of stock",
+              extraInfo:
+                (product.stockCount ?? 0) > 0 ? "Available" : "Out of stock",
             };
           } catch (error) {
             console.error("❌ Error transforming product:", product, error);
             return null;
           }
         };
-
-        console.log("📊 Total products fetched:", allProducts.length);
 
         // Filter desserts - check for dessert-related categories
         const desserts = allProducts
@@ -136,8 +99,6 @@ const MenuV2 = ({ sectionClass, isDark }: Datatype) => {
           .map(transformToMenuItem)
           .filter((item): item is MenuItem => item !== null);
 
-        console.log("🍰 Desserts found:", desserts.length);
-
         // Get latest 4 products (sorted by createdAt desc)
         // If createdAt doesn't exist or sorting fails, just take first 4
         const popularItems = [...allProducts]
@@ -149,8 +110,6 @@ const MenuV2 = ({ sectionClass, isDark }: Datatype) => {
           .slice(0, 4)
           .map(transformToMenuItem)
           .filter((item): item is MenuItem => item !== null);
-
-        console.log("⭐ Popular items:", popularItems.length);
 
         // If no desserts found, show main dishes instead
         let dessertSection: MenuSection;
@@ -201,7 +160,6 @@ const MenuV2 = ({ sectionClass, isDark }: Datatype) => {
           dessertSection,
         ];
 
-        console.log("📋 Final sections:", sections);
         setMenuSections(sections);
       } catch (error) {
         console.error("❌ Error fetching menu data:", error);

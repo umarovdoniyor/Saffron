@@ -3,7 +3,7 @@ import ReviewForm from "../form/ReviewForm";
 import RatingsStar from "../utilities/RatingsStar";
 
 interface ProductInfo {
-  id?: number;
+  id?: number | string;
   name?: string;
   title?: string;
   detailedDescription?: string;

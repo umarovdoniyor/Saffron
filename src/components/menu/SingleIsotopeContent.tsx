@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import handleSmoothScroll from "../utilities/handleSmoothScroll";
 
 interface DataType {
-  id?: number;
+  id?: number | string;
   thumb?: string;
   image?: string; // Backend will send full URL
   title?: string;
@@ -49,8 +49,8 @@ const SingleIsotopeContent = ({ food }: { food: DataType }) => {
   const displayText = text || description;
 
   // Get productTags from backend or fallback to category
-  const productTags = (food as any).productTags;
-  const displayTags =
+  const productTags = (food as any).productTags as string[] | undefined;
+  const displayTags: string[] | undefined =
     productTags || tags || category?.map((cat) => cat.replace(".", ""));
 
   // Friendly fallback tags for food if no tags are provided
@@ -90,7 +90,7 @@ const SingleIsotopeContent = ({ food }: { food: DataType }) => {
             {(displayTags && displayTags.length > 0
               ? displayTags
               : fallbackTags
-            ).map((data, index, array) => (
+            ).map((data: string, index: number, array: string[]) => (
               <span key={index}>
                 {data}
                 {index < array.length - 1 && " / "}

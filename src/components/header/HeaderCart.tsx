@@ -14,7 +14,7 @@ const HeaderCart = () => {
     0,
   );
 
-  const handleRemove = (id: number) => {
+  const handleRemove = (id: number | string) => {
     dispatch(removeFromCart(id));
     toast.error("Product removed from cart");
   };

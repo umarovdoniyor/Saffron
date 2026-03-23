@@ -66,6 +66,27 @@ export default function RestaurantUserDashboard({
   onOrderStatusChange,
   onDeleteOrder,
 }: DashboardProps) {
+  const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || "").replace(
+    /\/$/,
+    "",
+  );
+
+  const resolveAvatarUrl = (avatar?: string) => {
+    if (!avatar) {
+      return "https://via.placeholder.com/80x80.png?text=User";
+    }
+
+    if (avatar.startsWith("http")) {
+      return avatar;
+    }
+
+    if (avatar.startsWith("uploads/")) {
+      return apiBaseUrl ? `${apiBaseUrl}/${avatar}` : `/${avatar}`;
+    }
+
+    return `${import.meta.env.VITE_UPLOAD_URL}/${avatar}`;
+  };
+
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -557,15 +578,7 @@ export default function RestaurantUserDashboard({
         <div className={styles.headerContent}>
           <div className={styles.headerLeft}>
             <img
-              src={
-                userInfo.avatar
-                  ? userInfo.avatar.startsWith("http")
-                    ? userInfo.avatar
-                    : userInfo.avatar.startsWith("uploads/")
-                      ? `http://localhost:3003/${userInfo.avatar}`
-                      : `${import.meta.env.VITE_UPLOAD_URL}/${userInfo.avatar}`
-                  : "https://via.placeholder.com/80x80.png?text=User"
-              }
+              src={resolveAvatarUrl(userInfo.avatar)}
               alt={userInfo.name}
               className={styles.headerAvatar}
             />
@@ -672,16 +685,7 @@ export default function RestaurantUserDashboard({
                       }}
                     >
                       <img
-                        src={
-                          imagePreview ||
-                          (userInfo.avatar
-                            ? userInfo.avatar.startsWith("http")
-                              ? userInfo.avatar
-                              : userInfo.avatar.startsWith("uploads/")
-                                ? `http://localhost:3003/${userInfo.avatar}`
-                                : `${import.meta.env.VITE_UPLOAD_URL}/${userInfo.avatar}`
-                            : "https://via.placeholder.com/80x80.png?text=User")
-                        }
+                        src={imagePreview || resolveAvatarUrl(userInfo.avatar)}
                         alt="Profile Preview"
                         style={{
                           width: "80px",

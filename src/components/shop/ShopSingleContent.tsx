@@ -2,7 +2,6 @@ import RelatedProducts from "../product/RelatedProducts";
 import ShopSingleTab from "./ShopSingleTab";
 import { Link } from "react-router-dom";
 import RatingsStar from "../utilities/RatingsStar";
-import ProductCarousel from "../product/ProductCarousel";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { addToCart } from "../../store/slices/cartSlice";
@@ -41,7 +40,6 @@ const ShopSingleContent = ({ productInfo }: { productInfo: DataType }) => {
     text,
     thumb,
     image,
-    productImages = [],
     inStock = true,
     stockCount = 0,
   } = productInfo;

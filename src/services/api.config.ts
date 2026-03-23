@@ -3,10 +3,20 @@
  * Central configuration for all API calls
  */
 
+const envBaseURL = import.meta.env.VITE_API_BASE_URL;
+
+if (import.meta.env.PROD && !envBaseURL) {
+  throw new Error("VITE_API_BASE_URL is required in production");
+}
+
+const resolvedBaseURL = envBaseURL || "http://localhost:3000";
+const envUploadURL = import.meta.env.VITE_UPLOAD_URL;
+const resolvedUploadURL = envUploadURL || `${resolvedBaseURL}/uploads`;
+
 export const API_CONFIG = {
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:3000",
+  baseURL: resolvedBaseURL,
   timeout: Number(import.meta.env.VITE_API_TIMEOUT) || 10000,
-  uploadURL: import.meta.env.VITE_UPLOAD_URL || "http://localhost:3000/uploads",
+  uploadURL: resolvedUploadURL,
   withCredentials: true, // Important for JWT cookies
 };
 

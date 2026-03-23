@@ -9,7 +9,7 @@ interface DataType {
 }
 
 const SingleBlogStandard = ({ blog }: { blog: DataType }) => {
-  const { id, thumbFull, date, title, text } = blog;
+  const { id, date, title, text } = blog;
 
   return (
     <>

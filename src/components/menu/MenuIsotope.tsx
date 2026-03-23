@@ -24,7 +24,6 @@ const MenuIsotope: React.FC<MenuIsotopeProps> = ({
   const isoRef = useRef<any>(null);
   const [activeFilter, setActiveFilter] = useState<string>("*");
   const [isClient, setIsClient] = useState<boolean>(false);
-  const [visibleCount, setVisibleCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const ITEMS_PER_PAGE = 12;
 
@@ -92,18 +91,10 @@ const MenuIsotope: React.FC<MenuIsotopeProps> = ({
   }, [isClient, paginatedItems]);
 
   const handleFilter = (filterValue: string) => {
-    console.log("🔍 Filter clicked:", filterValue);
     setActiveFilter(filterValue);
     setCurrentPage(1); // Reset to page 1 when filter changes
     if (isoRef.current) {
       isoRef.current.arrange({ filter: filterValue });
-
-      // Count visible items after filtering
-      setTimeout(() => {
-        const visibleItems = isoRef.current?.filteredItems?.length || 0;
-        console.log("✅ Visible items after filter:", visibleItems);
-        setVisibleCount(visibleItems);
-      }, 100);
     }
   };
 
@@ -112,15 +103,6 @@ const MenuIsotope: React.FC<MenuIsotopeProps> = ({
     // Scroll to top of menu section
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  // Update visible count when menu items change
-  useEffect(() => {
-    if (isoRef.current && paginatedItems.length > 0) {
-      const visibleItems =
-        isoRef.current?.filteredItems?.length || paginatedItems.length;
-      setVisibleCount(visibleItems);
-    }
-  }, [paginatedItems]);
 
   return (
     <>

@@ -13,12 +13,12 @@ const CartPageContent = () => {
     0,
   );
 
-  const handleRemove = (id: number) => {
+  const handleRemove = (id: number | string) => {
     dispatch(removeFromCart(id));
     toast.error("Product removed from cart");
   };
 
-  const handleQuantityChange = (id: number, quantity: number) => {
+  const handleQuantityChange = (id: number | string, quantity: number) => {
     dispatch(updateQuantity({ id, quantity }));
   };
 

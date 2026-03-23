@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { memberApi, transformMemberToUser } from "../../services/member.api";
 import type { LoginInput, SignupInput, User } from "../../types/api.types";
 
@@ -28,7 +28,6 @@ export const loginUser = createAsyncThunk(
 
       // Store in localStorage for persistence
       localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("accessToken", response.accessToken);
       localStorage.setItem("isAuthenticated", "true");
 
       return { user, accessToken: response.accessToken };
@@ -47,7 +46,6 @@ export const signupUser = createAsyncThunk(
 
       // Store in localStorage for persistence
       localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("accessToken", response.accessToken);
       localStorage.setItem("isAuthenticated", "true");
 
       return { user, accessToken: response.accessToken };
@@ -59,7 +57,7 @@ export const signupUser = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk(
   "auth/logout",
-  async (_, { rejectWithValue }) => {
+  async () => {
     try {
       await memberApi.logout();
     } catch (error: any) {
@@ -68,7 +66,6 @@ export const logoutUser = createAsyncThunk(
     } finally {
       // Always clear localStorage regardless of API success/failure
       localStorage.removeItem("user");
-      localStorage.removeItem("accessToken");
       localStorage.removeItem("isAuthenticated");
     }
 
@@ -101,12 +98,11 @@ const authSlice = createSlice({
     loadUser: (state) => {
       const user = localStorage.getItem("user");
       const isAuthenticated = localStorage.getItem("isAuthenticated");
-      const accessToken = localStorage.getItem("accessToken");
 
       if (user && isAuthenticated) {
         state.user = JSON.parse(user);
         state.isAuthenticated = true;
-        state.accessToken = accessToken;
+        state.accessToken = null;
       }
     },
     // Clear error
@@ -163,7 +159,7 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         state.error = null;
       })
-      .addCase(logoutUser.rejected, (state, action) => {
+      .addCase(logoutUser.rejected, (state) => {
         state.loading = false;
         // Always clear auth state even if logout API failed
         state.user = null;
