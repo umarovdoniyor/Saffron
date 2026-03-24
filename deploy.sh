@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # Optional pull step (enable if this script runs from CI or directly on server)
-# git pull origin main
+git pull origin main
 
 echo "Installing dependencies..."
 yarn install --frozen-lockfile
