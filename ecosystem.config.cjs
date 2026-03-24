@@ -1,9 +1,9 @@
 module.exports = {
   apps: [
     {
-      name: "foodu-frontend",
-      script: "serve",
-      args: "-s dist -l 3000",
+      name: "BURAK-REACT",
+      script: "yarn",
+      args: "start:prod",
       env: {
         NODE_ENV: "production",
       },
